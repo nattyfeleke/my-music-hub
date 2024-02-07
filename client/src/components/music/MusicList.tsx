@@ -7,7 +7,7 @@ import { deleteMusicRequest, fetchMusicRequest } from '../../reducers/musicSlice
 import {Box, Button, Card, Flex} from 'rebass/styled-components'
 import Popup from '../Popup';
 import AddMusic from './AddMusic';
-import { CiEdit, CiSearch } from "react-icons/ci";
+import { CiEdit, CiFilter, CiSearch } from "react-icons/ci";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import UpdateMusic from './UpdateMusic';
 
@@ -105,6 +105,10 @@ color: #111827;
 background-color: #F9FAFB; 
 margin: 1rem 0;
 `
+
+const FilterContainer = styled(Flex)`
+  margin: 1rem 0;
+`
 const MusicActions = styled(Flex)`
    flex-direction: column;
    gap:12px;
@@ -141,6 +145,9 @@ const filteredMusics = musics.filter(
             
             />
 </SearchBarContainer>
+<FilterContainer>
+  <CiFilter /> 
+</FilterContainer>
    {searchQuery && <SearchResult>
    <h3>Search Results ( {filteredMusics.length} songs )</h3>
    </SearchResult>}
