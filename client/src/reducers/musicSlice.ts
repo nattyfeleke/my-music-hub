@@ -1,6 +1,5 @@
 // src/reducers/musicSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '../store';
 import { Music, NewMusic } from '../types/musicTypes';
 
 interface MusicState {
@@ -31,14 +30,14 @@ const musicSlice = createSlice({
         state.musics= action.payload;
         state.status= 'idle'
     },
-    addMusicRequest: (state,action: PayloadAction<AddmusicAction>) => {
+    addMusicRequest: (state,_action: PayloadAction<AddmusicAction>) => {
      state.status='loading'
     },
     addMusicSuccess: (state, action: PayloadAction<Music>) => {
         state.musics.push(action.payload);
         state.status='idle';
       },
-      updateMusicRequest: (state,action: PayloadAction<AddmusicAction>) => {
+      updateMusicRequest: (state,_action: PayloadAction<AddmusicAction>) => {
         state.status='loading'
        },
        updateMusicSuccess: (state, action: PayloadAction<Music>) => {
@@ -48,7 +47,8 @@ const musicSlice = createSlice({
            })
            state.status='idle';
          },
-         deleteMusicRequest: (state,action: PayloadAction<string>) => {
+         deleteMusicRequest: (state,_action: PayloadAction<string>) => {
+          
           state.status='loading'
          },
     deleteMusicSuccess: (state, action: PayloadAction<string>) => {

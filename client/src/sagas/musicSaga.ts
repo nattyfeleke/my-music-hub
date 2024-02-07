@@ -4,10 +4,12 @@ import axios, { AxiosResponse, AxiosError } from 'axios';
 import {  AddmusicAction, UpdatemusicAction, addMusicRequest, addMusicSuccess ,deleteMusicRequest,deleteMusicSuccess,fetchMusicRequest, fetchMusicSuccess, updateMusicRequest, updateMusicSuccess} from '../reducers/musicSlice';
 import { Music, NewMusic } from '../types/musicTypes';
 import { toast } from 'sonner';
-
+export const apiUrl = process.env.NODE_ENV === 'production'? 'https://mymusic-7qoy.onrender.com':'http://localhost:3000';
+console.log('process.env.NODE_ENV ')
+console.log(process.env.NODE_ENV )
 const createMusicApi = async (music: NewMusic): Promise<AxiosResponse<Music>> => {
   try {
-    const response = await axios.post('http://localhost:3000/api/music', music);
+    const response = await axios.post(`${apiUrl}/api/music`, music);
     return response.data;
   } catch (error) {
     throw new Error(
@@ -18,7 +20,7 @@ const createMusicApi = async (music: NewMusic): Promise<AxiosResponse<Music>> =>
 
 const fetchMusicsApi = async (): Promise<AxiosResponse<Music>> => {
     try {
-      const response = await axios.get('http://localhost:3000/api/music');
+      const response = await axios.get(`${apiUrl}/api/music`);
       return response.data;
     } catch (error) {
       throw new Error(
@@ -28,7 +30,7 @@ const fetchMusicsApi = async (): Promise<AxiosResponse<Music>> => {
   };
   const updateMusicApi = async (music: Music): Promise<AxiosResponse<Music>> => {
     try {
-      const response = await axios.put(`http://localhost:3000/api/music/${music._id}`, music);
+      const response = await axios.put(`${apiUrl}/api/music/${music._id}`, music);
       return response.data;
     } catch (error) {
       throw new Error(
@@ -39,7 +41,7 @@ const fetchMusicsApi = async (): Promise<AxiosResponse<Music>> => {
   
 const deleteMusicApi = async(musicId: string) => {
   try {
-    const response = await axios.delete(`http://localhost:3000/api/music/${musicId}`);
+    const response = await axios.delete(`${apiUrl}/api/music/${musicId}`);
     return response.data;
   } catch (error) {
     throw new Error(

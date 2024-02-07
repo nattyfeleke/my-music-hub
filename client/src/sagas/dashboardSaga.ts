@@ -3,6 +3,7 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 import axios, {  AxiosError } from 'axios';
 import { AlbumStat, ArtistStat, GenreStat, Stat } from '../types/dashboardTypes';
 import { getDashboardInfoRequest, getDashboardInfoSuccess, getDashboardReportRequest, getDashboardReportSuccess } from '../reducers/dashboardSlice';
+import { apiUrl } from './musicSaga';
 
 interface StatRes {
     stat:Stat
@@ -12,9 +13,10 @@ interface ReportRes {
   artists:ArtistStat
   genre: GenreStat
 }
+
 const getDashboardStatApi = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/api/dashboard/stat');
+      const response = await axios.get(`${apiUrl}/api/dashboard/stat`);
       return response.data;
     } catch (error) {
       throw new Error(
@@ -24,7 +26,7 @@ const getDashboardStatApi = async () => {
   };
   const getDashboardReportApi = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/api/dashboard/reports');
+      const response = await axios.get(`${apiUrl}/api/dashboard/reports`);
       return response.data;
     } catch (error) {
       throw new Error(

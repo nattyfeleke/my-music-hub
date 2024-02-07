@@ -1,7 +1,5 @@
 import express  from 'express';
-import { check } from 'express-validator';
 import dashboardController from '../controllers/dashboard.controller';
-import { validate } from '../middlewares/validate';
 const router = express.Router();
 
 // @route   GET api/dashboard/

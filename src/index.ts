@@ -8,6 +8,7 @@ dotenv.config();
 
 import musicRoute from './routes/music' 
 import dashboardRoute from './routes/dashboard' 
+import path from 'path';
 
 
 const app = express();
@@ -22,6 +23,13 @@ app.get('/', (req: Request, res: Response) => {
 app.use('/api/music', musicRoute);
 app.use('/api/dashboard', dashboardRoute);
 
-  app.listen(port, () => {
+if (process.env.NODE_ENV == "production") {
+  app.use(express.static(path.join(__dirname, "client/dist")));
+
+  app.get("/*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "dist", "index.html"));
+  });
+} 
+ app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
   });

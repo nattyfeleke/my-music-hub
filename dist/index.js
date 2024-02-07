@@ -10,6 +10,7 @@ const db_1 = __importDefault(require("./config/db"));
 dotenv_1.default.config();
 const music_1 = __importDefault(require("./routes/music"));
 const dashboard_1 = __importDefault(require("./routes/dashboard"));
+const path_1 = __importDefault(require("path"));
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
@@ -20,6 +21,12 @@ app.get('/', (req, res) => {
 });
 app.use('/api/music', music_1.default);
 app.use('/api/dashboard', dashboard_1.default);
+if (process.env.NODE_ENV == "production") {
+    app.use(express_1.default.static(path_1.default.join(__dirname, "client/dist")));
+    app.get("/*", (req, res) => {
+        res.sendFile(path_1.default.resolve(__dirname, "client", "dist", "index.html"));
+    });
+}
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 });

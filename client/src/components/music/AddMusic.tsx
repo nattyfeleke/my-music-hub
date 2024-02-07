@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 // import { saveMusicAsync } from '../reducers/musicSlice';
-import { Music, NewMusic } from '../../types/musicTypes';
+import { NewMusic } from '../../types/musicTypes';
 import styled from '@emotion/styled';
 import { addMusicRequest } from '../../reducers/musicSlice';
 

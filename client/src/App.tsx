@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from './store'
 import styled from '@emotion/styled';
 import Dashboard from './components/dashboard/Dashboard'
