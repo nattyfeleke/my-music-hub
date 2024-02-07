@@ -8,10 +8,10 @@ import {Box, Button, Card, Flex} from 'rebass/styled-components'
 import Popup from '../Popup';
 import AddMusic from './AddMusic';
 import { CiEdit,
-  //  CiFilter, 
    CiSearch } from "react-icons/ci";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import UpdateMusic from './UpdateMusic';
+import { IoIosClose } from 'react-icons/io';
 
 const MusicListContainer = styled.div`
 h2 {
@@ -108,9 +108,50 @@ background-color: #F9FAFB;
 margin: 1rem 0;
 `
 
-// const FilterContainer = styled(Flex)`
-//   margin: 1rem 0;
-// `
+const FilterContainer = styled(Flex)`
+
+  border: 1px solid #ebeced;
+    padding: 1rem;
+    border-bottom: none;
+    border-radius: 4px 4px 0 0;
+    width: 100%;
+gap: 1rem;
+`
+const FilterButton = styled.select`
+display: flex;
+align-items: center;
+gap:0.5rem;
+  border: 1px solid #ebeced;
+    padding: 0.25rem 0.5rem;
+    border-radius: 2px;
+    font-size:14px;
+    cursor: pointer;
+    justify-self: flex-end;
+   
+
+`
+
+const Filters = styled(Flex)`
+
+  align-items: center;
+  gap: 1rem;
+  color:white;
+
+  font-size: 14px;
+  div {
+   background: #2f426f;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px; 
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  }
+  div svg {
+    cursor: pointer;
+  }
+  
+  
+`
 const MusicActions = styled(Flex)`
    flex-direction: column;
    gap:12px;
@@ -120,20 +161,33 @@ const MusicActions = styled(Flex)`
 `
 
 const MusicList: React.FC = () => {
-  const {musics,status} = useAppSelector(state=>state.music);
+  const {musics,status,genres} = useAppSelector(state=>state.music);
   const [showAddMusic,setShowAddMusic] = useState<boolean>(false);
   const [showUpdateMusic,setShowUpdateMusic] = useState<boolean>(false);
   const [updatedMusic,setUpdatedMusic] = useState<Music|null>(null);
   const [searchQuery, setSearchQuery] = useState<string>('');
-
+  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
+  
   const dispatch = useAppDispatch()
 useEffect(() => {
  dispatch(fetchMusicRequest())
 }, [])
+const handleGenreChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const selectedGenre = event.target.value;
+
+  if (selectedGenres.includes(selectedGenre)) {
+    setSelectedGenres(selectedGenres.filter((genre) => genre !== selectedGenre));
+  } else {
+    setSelectedGenres([...selectedGenres, selectedGenre]);
+  }
+};
+
 const filteredMusics = musics.filter(
   (music) =>
-    music.title?.toLowerCase().includes(searchQuery.toLowerCase())
+    music.title?.toLowerCase().includes(searchQuery.toLowerCase())&&
+    (selectedGenres.length === 0 || selectedGenres.includes(music.genre || '')) 
 );
+
   return (<> <MusicListContainer>
       <h2>My Musics</h2>
 <AddButton onClick={()=>setShowAddMusic(true)}>Add new</AddButton>
@@ -147,9 +201,26 @@ const filteredMusics = musics.filter(
             
             />
 </SearchBarContainer>
-{/* <FilterContainer>
+<FilterContainer>
+{/* <FilterButton htmlFor='genreFilter'>
+
   <CiFilter /> 
-</FilterContainer> */}
+</FilterButton> */}
+<FilterButton id="genreFilter" value={''} onChange={handleGenreChange}>
+        <option value="All">Filter by genre</option>
+        {genres.length>0 && genres.filter((genre) => !selectedGenres.includes(genre || '')).map((genre) => (
+          <option key={genre} value={genre}>
+            {genre}
+          </option>
+        ))}
+      </FilterButton>
+      <Filters>
+        {selectedGenres.length > 0 && selectedGenres.map((genre) =>(<div key={genre}>
+{genre}
+<IoIosClose onClick={()=>{setSelectedGenres(selectedGenres.filter((g) => g !== genre));}}/>
+        </div>))}
+      </Filters>
+</FilterContainer>
    {searchQuery && <SearchResult>
    <h3>Search Results ( {filteredMusics.length} songs )</h3>
    </SearchResult>}

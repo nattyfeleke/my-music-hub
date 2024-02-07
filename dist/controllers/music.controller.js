@@ -79,8 +79,8 @@ const deleteMusic = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.deleteMusic = deleteMusic;
 const getMusics = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const musics = yield Music_1.default.find();
-        res.json(musics);
+        const [musics, genres] = yield Promise.all([Music_1.default.find(), Music_1.default.distinct('genre')]);
+        res.json({ musics, genres });
     }
     catch (error) {
         console.log(error);

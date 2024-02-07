@@ -2,6 +2,7 @@ import express  from 'express';
 import { check } from 'express-validator';
 import musicController from '../controllers/music.controller';
 import { validate } from '../middlewares/validate';
+import Music from '../models/Music';
 const router = express.Router();
 
 // @route   POST api/music/
@@ -40,4 +41,6 @@ router.delete(
 musicController.deleteMusic
   
 )
+
+
   export default router

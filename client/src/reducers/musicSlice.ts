@@ -1,21 +1,11 @@
 // src/reducers/musicSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Music, NewMusic } from '../types/musicTypes';
+import { AddmusicAction, Music, MusicState } from '../types/musicTypes';
 
-interface MusicState {
-  musics: Music[];
-  status: 'loading'|'idle'|'failed';
-}
-export interface AddmusicAction {
-    music:NewMusic
-    setOpen:React.Dispatch<React.SetStateAction<boolean>>
-}
-export interface UpdatemusicAction {
-  music:Music
-  setOpen:React.Dispatch<React.SetStateAction<boolean>>
-}
+
 const initialState: MusicState = {
   musics: [],
+  genres: [],
   status:'idle'
 };
 
@@ -27,7 +17,9 @@ const musicSlice = createSlice({
         state.status= 'loading'
     },
     fetchMusicSuccess:(state,action)=>{
-        state.musics= action.payload;
+      const {musics,genres}= action.payload;
+        state.musics= musics;
+        state.genres= genres;
         state.status= 'idle'
     },
     addMusicRequest: (state,_action: PayloadAction<AddmusicAction>) => {

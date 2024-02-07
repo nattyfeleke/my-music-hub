@@ -72,9 +72,9 @@ export const deleteMusic = async (req: Request, res: Response) => {
 
   export const getMusics = async (req: Request, res: Response) => {
     try {
-      const musics = await Music.find();
-     
-      res.json(musics);
+      const [musics,genres] = await Promise.all([ Music.find(),Music.distinct('genre')]);
+      
+      res.json({musics,genres});
     } catch (error) {
       console.log( error);
       res.status(500).json({ error: "Internal server error" });

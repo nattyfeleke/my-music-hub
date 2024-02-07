@@ -1,10 +1,10 @@
 
 import { call, put, takeEvery, takeLatest } from 'redux-saga/effects';
 import axios, { AxiosResponse, AxiosError } from 'axios';
-import {  AddmusicAction, UpdatemusicAction, addMusicRequest, addMusicSuccess ,deleteMusicRequest,deleteMusicSuccess,fetchMusicRequest, fetchMusicSuccess, updateMusicRequest, updateMusicSuccess} from '../reducers/musicSlice';
-import { Music, NewMusic } from '../types/musicTypes';
+import {   addMusicRequest, addMusicSuccess ,deleteMusicRequest,deleteMusicSuccess,fetchMusicRequest, fetchMusicSuccess, updateMusicRequest, updateMusicSuccess} from '../reducers/musicSlice';
+import { AddmusicAction, Music, NewMusic, UpdatemusicAction } from '../types/musicTypes';
 import { toast } from 'sonner';
-export const apiUrl = process.env.NODE_ENV === 'production'? 'https://mymusic-7qoy.onrender.com':'http://localhost:3000';
+export const apiUrl = process.env.NODE_ENV == 'production'? 'https://mymusic-7qoy.onrender.com':'http://localhost:3000';
 console.log('process.env.NODE_ENV ')
 console.log(process.env.NODE_ENV )
 const createMusicApi = async (music: NewMusic): Promise<AxiosResponse<Music>> => {
