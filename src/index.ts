@@ -17,17 +17,15 @@ app.use(express.json())
 const port = process.env.PORT || 3000;
 connectDB();
 
-app.get('/', (req: Request, res: Response) => {
-    res.send('Hello, TypeScript Express!');
-  });
+
 app.use('/api/music', musicRoute);
 app.use('/api/dashboard', dashboardRoute);
 
 if (process.env.NODE_ENV == "production") {
-  app.use(express.static(path.join(__dirname, "client/dist")));
+  app.use(express.static(path.join(__dirname, "../client/dist")));
 
   app.get("/*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "client", "dist", "index.html"));
+    res.sendFile(path.resolve(__dirname, "../client", "dist", "index.html"));
   });
 } 
  app.listen(port, () => {

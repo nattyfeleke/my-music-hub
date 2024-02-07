@@ -16,15 +16,12 @@ app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 const port = process.env.PORT || 3000;
 (0, db_1.default)();
-app.get('/', (req, res) => {
-    res.send('Hello, TypeScript Express!');
-});
 app.use('/api/music', music_1.default);
 app.use('/api/dashboard', dashboard_1.default);
 if (process.env.NODE_ENV == "production") {
-    app.use(express_1.default.static(path_1.default.join(__dirname, "client/dist")));
+    app.use(express_1.default.static(path_1.default.join(__dirname, "../client/dist")));
     app.get("/*", (req, res) => {
-        res.sendFile(path_1.default.resolve(__dirname, "client", "dist", "index.html"));
+        res.sendFile(path_1.default.resolve(__dirname, "../client", "dist", "index.html"));
     });
 }
 app.listen(port, () => {
