@@ -29,7 +29,7 @@ const MainContent = styled(Box)`
 `;
 
 const DashboardWrapper = styled(Flex)`
-  height: 100vh;
+  min-height: 100vh;
 `;
 const Nav = styled(Flex)`
 margin-top: 1rem;
@@ -45,7 +45,7 @@ const StyledLink = styled(Box)<{ variant?: string }>`
     display:flex;
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
+    gap: 0.25rem;
     width: 100%;
     justify-content: center;
     font-size: 12px;

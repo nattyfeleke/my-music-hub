@@ -6,20 +6,24 @@ import { GiLoveSong } from "react-icons/gi";
 import { AlbumStat } from '../../types/dashboardTypes';
 
 
-const Wrapper = styled(Flex)`
+const Wrapper = styled(Flex)<{even:boolean}>`
     padding: 0.5rem 1rem;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.25rem;
     border-radius: 8px;
     cursor: pointer;
-    color: #2f426f;
-   
+    color: #2f426f;   
     font-size:12px;
+    margin-right: 1rem;
 :hover{
   background-color: #2f426f;
   color: white;
 }
-
+${(props) =>
+    props.even &&
+    `
+    background-color:#ebeced;
+    `}
     `;
     const StatWrapper = styled(Flex)`
   gap: 1rem;
@@ -40,7 +44,7 @@ const Albums:React.FC<Props> = ({albums}) => {
 
   return (<>
   {albums.length>0 && albums.map((album,index)=>(
-    <Wrapper key={index}>
+    <Wrapper key={index} even={index % 2 ===0}>
 <h3>{album.name}</h3>
 <StatWrapper>
   <Stat>

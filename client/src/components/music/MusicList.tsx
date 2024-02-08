@@ -58,6 +58,7 @@ const MusicDetail = styled(Card)`
     width: fit-content;
     font-size: 12px;
   }
+ 
   
 `;
 const AddButton = styled(Button)`
@@ -127,7 +128,8 @@ gap:0.5rem;
     font-size:14px;
     cursor: pointer;
     justify-self: flex-end;
-   
+    background: #fff;
+  color: #242424;
 
 `
 
@@ -228,7 +230,7 @@ const filteredMusics = musics.filter(
     {status==='loading' ?<><div >Loading...</div></> :<List>
         {filteredMusics.map((music) => (
           <MusicItem key={music._id}>
-            <MusicDetail>
+            <MusicDetail >
 
            
             <h1>{music.title}</h1>
