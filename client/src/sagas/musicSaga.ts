@@ -1,22 +1,31 @@
 
 import { call, put, takeEvery, takeLatest } from 'redux-saga/effects';
-import axios, { AxiosResponse, AxiosError } from 'axios';
+import axios, { AxiosResponse, AxiosError, isAxiosError } from 'axios';
 import {   addMusicRequest, addMusicSuccess ,deleteMusicRequest,deleteMusicSuccess,fetchMusicRequest, fetchMusicSuccess, updateMusicRequest, updateMusicSuccess} from '../reducers/musicSlice';
 import { AddmusicAction, Music, NewMusic, UpdatemusicAction } from '../types/musicTypes';
 import { toast } from 'sonner';
 export const apiUrl = process.env.NODE_ENV == 'production'? 'https://mymusic-7qoy.onrender.com':'http://localhost:3000';
 console.log('process.env.NODE_ENV ')
 console.log(process.env.NODE_ENV )
-const createMusicApi = async (music: NewMusic): Promise<AxiosResponse<Music>> => {
+const createMusicApi = async (music: NewMusic) => {
   try {
     const response = await axios.post(`${apiUrl}/api/music`, music);
     return response.data;
   } catch (error) {
-    throw new Error(
-      (error as AxiosError<{ message?: string }>)?.response?.data?.message || 'Error creating music'
-    );
+    let errors:any=[]
+      if (isAxiosError(error)) {
+        errors = error.response?.data.errors
+        if (errors) {
+          errors.forEach((err: any) => {
+            toast.error(err?.msg)
+          })
+        }
+      } else {
+        console.log(error)
+      }
+     
+    }
   }
-};
 
 const fetchMusicsApi = async (): Promise<AxiosResponse<Music>> => {
     try {
@@ -28,14 +37,23 @@ const fetchMusicsApi = async (): Promise<AxiosResponse<Music>> => {
       );
     }
   };
-  const updateMusicApi = async (music: Music): Promise<AxiosResponse<Music>> => {
+  const updateMusicApi = async (music: Music) => {
     try {
       const response = await axios.put(`${apiUrl}/api/music/${music._id}`, music);
       return response.data;
     } catch (error) {
-      throw new Error(
-        (error as AxiosError<{ message?: string }>)?.response?.data?.message || 'Error creating music'
-      );
+      let errors:any=[]
+      if (isAxiosError(error)) {
+        errors = error.response?.data.errors
+        if (errors) {
+          errors.forEach((err: any) => {
+            toast.error(err?.msg)
+          })
+        }
+      } else {
+        console.log(error)
+      }
+     
     }
   };
   
